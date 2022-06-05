@@ -1,0 +1,28 @@
+
+User Goal
+    1. write and take notes
+    2. oragize and keep track of thoughts
+
+1. open note taker
+    A. Present landing html with link to notes
+
+2. Click on link to notes page
+    A. show existing notes in left hand column
+    B. empty fields in right hand column
+        1. Title for note
+        2. Place to type text for note
+
+3. After I enter new notes text
+    A. Save Icon appears
+
+4. When save icon "clicked"
+    A. note passes to left hand column 
+    B. Appears along with other notes
+
+5. Click a note from the left hand list
+    A. Note appears in right hand column with 
+    B. Title and text
+
+6. Click write icon
+    A. Empty fields in title and text
+    B. Type new note

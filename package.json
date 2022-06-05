@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest"
   },
-  "author": "",
+  "author": "Kmac5000",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4"
