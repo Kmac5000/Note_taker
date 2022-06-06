@@ -1,23 +1,22 @@
-const notes = require("express").Router();
+const notesJS = require("express").Router();
 const {
   readFromFile,
   writeToFile,
   readAndAppend,
 } = require("../helper/fsUtils");
+const fs = require("fs");
 
 // route for notes page
-notes.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "../public/notes.html"))
-);
+notesJS.get("/", (req, res) => res.sendFile(path.join(__dirname, "/notes")));
 
 //Route for retrieving all of the feedback
-notes.get("/read", (req, res) => {
-  console.info(`${req.method} request received for feedback`);
+notesJS.get("/read", (req, res) => {
+  console.info(`${req.method} request received for note`);
 
   readFromFile("../db/db.json").then((data) => res.json(JSON.parse(data)));
 });
 
-notes.post("/", (req, res) => {
+notesJS.post("/", (req, res) => {
   console.info(`${req.method} request recieved to submit note`);
   // deconstruct to assign items into body
   const { title, text } = req.body;
@@ -40,4 +39,4 @@ notes.post("/", (req, res) => {
   }
 });
 
-module.export = notes;
+module.export = notesJS;
