@@ -1,46 +1,46 @@
-const notes = require("express").Router();
+const note = require("express").Router();
 const fs = require("fs");
 const path = require("path");
 
-function newNote(body, notesArray) {
+const notes = require("../db/db.json");
+
+function newNote(body, notes) {
   const note = body;
-  notesArray.push(note);
+  notes.push(note);
 
   fs.writeFileSync(
-    path.join(__dirname, "./db/db.json"),
-    JSON.stringify({ notes: notesArray }, null, 2)
+    path.join(__dirname, "../db/db.json"),
+    JSON.stringify(notes, null, 2)
   );
   return note;
 }
 
 function validateNote(note) {
-  if (!note.title || typeof note.title !== "string") {
-    return false;
-  }
   if (!note.text || typeof note.text !== "string") {
     return false;
   }
   return true;
 }
 
-notes.get("/api/notes", (req, res) => {
-  res.json(notes);
+note.get("/", (req, res) => {
+  fs.readFile("./db/db.json", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const noteReturn = JSON.parse(data);
+      console.log(noteReturn);
+      return res.json(noteReturn);
+    }
+  });
 });
 
-notes.post("/api/notes", (req, res) => {
-  req.body.id = notes.length.toString();
+note.post("/", (req, res) => {
+  console.log("note functionsssss");
+  // req.body.id = notes.length.toString();
   if (validateNote(req.body)) {
     const note = newNote(req.body, notes);
     res.json(note);
   }
 });
 
-notes.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
-
-notes.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/notes.html"));
-});
-
-module.exports = notes;
+module.exports = note;
