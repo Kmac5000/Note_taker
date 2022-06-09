@@ -29,7 +29,7 @@ note.get("/", (req, res) => {
       console.error(err);
     } else {
       const noteReturn = JSON.parse(data);
-      console.log(noteReturn);
+      // console.log(noteReturn);
       return res.json(noteReturn);
     }
   });
@@ -37,19 +37,30 @@ note.get("/", (req, res) => {
 
 note.post("/", (req, res) => {
   console.log("note functionsssss");
-  // const news = req.body;
-  // news.id = uuidv4();
-  // console.log(news, news.id);
+  const news = req.body;
+  news.id = uuidv4();
+  console.log("this is the spot" + news + "  the next  " + news.id);
   // req.body.id = notes.length.toString();
   if (validateNote(req.body)) {
     const note = newNote(req.body, notes);
+
     res.json(note);
   }
 });
 
-// note.delete("/:id", (req, res) => {
-//   console.log("req params", req.params.id);
-//   notes.splice(req.params.id, 1);
-// });
+note.delete("/:id", (req, res) => {
+  // console.log("req params", req.params.id);
+  let noteId = req.params.id;
+  console.log("note id" + noteId);
+
+  for (i = 0; i < notes.length; i++) {
+    if ((notes[i].id = noteId)) {
+      res.send(notes[i]);
+      notes.splice(i, 1);
+      break;
+    }
+  }
+  return;
+});
 
 module.exports = note;
