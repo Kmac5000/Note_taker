@@ -1,6 +1,7 @@
 const note = require("express").Router();
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 const notes = require("../db/db.json");
 
@@ -36,11 +37,19 @@ note.get("/", (req, res) => {
 
 note.post("/", (req, res) => {
   console.log("note functionsssss");
+  // const news = req.body;
+  // news.id = uuidv4();
+  // console.log(news, news.id);
   // req.body.id = notes.length.toString();
   if (validateNote(req.body)) {
     const note = newNote(req.body, notes);
     res.json(note);
   }
 });
+
+// note.delete("/:id", (req, res) => {
+//   console.log("req params", req.params.id);
+//   notes.splice(req.params.id, 1);
+// });
 
 module.exports = note;
