@@ -7,7 +7,13 @@ const notes = require("../db/db.json");
 
 function newNote(body, notes) {
   const note = body;
+
+  const news = body;
+  note.id = uuidv4();
+  console.log("this is the spot" + news + "  the next  " + note.id);
+
   notes.push(note);
+  console.log("newNote " + note);
 
   fs.writeFileSync(
     path.join(__dirname, "../db/db.json"),
@@ -37,9 +43,7 @@ note.get("/", (req, res) => {
 
 note.post("/", (req, res) => {
   console.log("note functionsssss");
-  const news = req.body;
-  news.id = uuidv4();
-  console.log("this is the spot" + news + "  the next  " + news.id);
+
   // req.body.id = notes.length.toString();
   if (validateNote(req.body)) {
     const note = newNote(req.body, notes);
@@ -50,17 +54,35 @@ note.post("/", (req, res) => {
 
 note.delete("/:id", (req, res) => {
   // console.log("req params", req.params.id);
-  let noteId = req.params.id;
-  console.log("note id" + noteId);
+  // let noteId = req.params.id;
+  // console.log("note id  " + noteId);
+  fs.readFile("./db/db.json", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedNotes = JSON.parse(data);
+      const noteToDelete = parsedNotes.filter(
+        (note) => note.id === req.params.id
+      )[0];
+      const upDatedNote = parsedNotes.filter(
+        (note) => note.id !== req.params.id
+      );
+      fs.writeFile(
+        "./db/db.json",
+        JSON.stringify(upDatedNote, null, 4),
+        (err) =>
+          err ? console.log(error) : console.log("Successfully deleted note!")
+      );
+      const successData = {
+        status: "Success",
+        msg: "Note deleted",
+        body: noteToDelete,
+      };
 
-  for (i = 0; i < notes.length; i++) {
-    if ((notes[i].id = noteId)) {
-      res.send(notes[i]);
-      notes.splice(i, 1);
-      break;
+      console.log(successData);
+      res.json(successData);
     }
-  }
-  return;
+  });
 });
 
 module.exports = note;

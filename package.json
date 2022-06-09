@@ -4,12 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Kmac5000",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "nodemon": "^2.0.16",
     "uuid": "^8.3.2"
   }
 }
